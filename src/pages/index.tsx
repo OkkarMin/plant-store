@@ -4,17 +4,10 @@ import {
   Button,
   Text,
   Container,
-  FormLabel,
   Heading,
-  Input,
-  Stack,
-  Flex,
-  FormControl,
   VStack,
-  SimpleGrid,
   OrderedList,
   ListItem,
-  Box,
   Code,
 } from "@chakra-ui/react";
 

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { CartContext } from "../context/CartContext";
 
-import { Box, Flex, Heading, Badge, Button, HStack } from "@chakra-ui/react";
+import { Box, Flex, Heading, Button, HStack } from "@chakra-ui/react";
 
 type Props = {
   cartItem: ICartItem;

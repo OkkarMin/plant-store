@@ -1,21 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { CartContext } from "../context/CartContext";
 import Link from "next/link";
 
-import {
-  Button,
-  Text,
-  Container,
-  FormLabel,
-  Heading,
-  Input,
-  Stack,
-  Flex,
-  FormControl,
-  VStack,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Button, Container, Heading, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 
 import ShopItem from "../components/ShopItem";
