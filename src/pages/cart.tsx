@@ -7,14 +7,9 @@ import {
   Button,
   Container,
   Box,
-  HStack,
-  Stack,
   VStack,
   Heading,
   Flex,
-  Text,
-  Badge,
-  Center,
 } from "@chakra-ui/react";
 
 import CartItem from "../components/CartItem";
