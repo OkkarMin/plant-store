@@ -36,6 +36,8 @@ function ShopAdmin() {
     };
     addToShop(shopItem);
 
+    setTitle("");
+
     toast({
       title: `${shopItem.title} added to shop`,
       status: "success",
