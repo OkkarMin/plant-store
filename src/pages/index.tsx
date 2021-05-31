@@ -1,56 +1,71 @@
+import Link from "next/link";
+
 import {
-  Link as ChakraLink,
+  Button,
   Text,
-  Code,
-  List,
-  ListIcon,
+  Container,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Flex,
+  FormControl,
+  VStack,
+  SimpleGrid,
+  OrderedList,
   ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+  Box,
+  Code,
+} from "@chakra-ui/react";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+const Index = () => {
+  return (
+    <Container marginTop="6">
+      <VStack align="flex-start">
+        <Heading>Introduction Page</Heading>
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>typescript</Code>.
-      </Text>
+        <Text>Made a quick example of how we can utilize shopping cart</Text>
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+        <Heading size="md">User flow</Heading>
+        <Container>
+          <OrderedList>
+            <ListItem fontSize="md">
+              User go to <Code>shop</Code> page
+            </ListItem>
+            <ListItem>User add items to cart</ListItem>
+            <ListItem>User go to cart to checkout or remove item</ListItem>
+          </OrderedList>
+        </Container>
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
+        <Heading size="md">Admin flow</Heading>
+        <Container>
+          <OrderedList>
+            <ListItem>
+              Admin go to <Code>shop-admin</Code> page
+            </ListItem>
+            <ListItem>Admin add or remove items to be sold in shop</ListItem>
+            <ListItem>Items in shop are updated accordingly</ListItem>
+          </OrderedList>
+        </Container>
 
-export default Index
+        <Link href="/shop">
+          <Button colorScheme="green" width="full">
+            To Shop
+          </Button>
+        </Link>
+        <Link href="/shop-admin">
+          <Button colorScheme="yellow" width="full">
+            To Shop Admin
+          </Button>
+        </Link>
+        <Link href="/cart">
+          <Button colorScheme="blue" width="full">
+            To Cart
+          </Button>
+        </Link>
+      </VStack>
+    </Container>
+  );
+};
+
+export default Index;
