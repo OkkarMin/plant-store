@@ -42,7 +42,7 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
         <Image
           width={300}
           height={150}
-          src="https://via.placeholder.com/300x150?text=shopItem+Image"
+          src={`https://via.placeholder.com/300x150?text=${shopItem.title}+Image`}
         />
 
         <Heading as="h4" size="md" padding="2">
