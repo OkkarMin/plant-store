@@ -27,6 +27,9 @@ const Index = () => {
             </ListItem>
             <ListItem>User add items to cart</ListItem>
             <ListItem>User go to cart to checkout or remove item</ListItem>
+            <ListItem>
+              User can go back to <Code>shop</Code>page to continue adding
+            </ListItem>
           </OrderedList>
         </Container>
 
