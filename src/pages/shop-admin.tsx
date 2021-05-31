@@ -11,6 +11,7 @@ import {
   Flex,
   FormControl,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 
@@ -27,12 +28,21 @@ function ShopAdmin() {
   const handleIDChange = (event: any) => setID(event.target.value);
   const handleTitleChange = (event: any) => setTitle(event.target.value);
 
+  const toast = useToast();
   const handleAddToShop = () => {
     const shopItem: IShopItem = {
       id,
       title,
     };
     addToShop(shopItem);
+
+    toast({
+      title: `${shopItem.title} added to shop`,
+      status: "success",
+      position: "top-left",
+      duration: 1000,
+      isClosable: true,
+    });
   };
 
   return (
