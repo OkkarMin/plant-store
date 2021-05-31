@@ -15,7 +15,7 @@ import {
 import CartItem from "../components/CartItem";
 
 function Cart() {
-  const { cart } = useContext(CartContext);
+  const { cart } = useContext(CartContext) as CartContextType;
 
   return (
     <Container marginTop="6">
@@ -49,7 +49,7 @@ function Cart() {
         </VStack>
       ) : (
         <VStack marginTop="6" spacing="4">
-          {cart.map((cartItem, i: number) => (
+          {cart.map((cartItem: ICartItem, i: number) => (
             <CartItem key={i} cartItem={cartItem} />
           ))}
         </VStack>
