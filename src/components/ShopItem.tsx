@@ -11,6 +11,7 @@ import {
   VStack,
   IconButton,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
@@ -27,6 +28,7 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
     setQuantity(quantity - 1);
   };
 
+  const toast = useToast();
   const { addToCart } = useContext(CartContext) as CartContextType;
   const handleAddToCart = () => {
     const cartItem: ICartItem = {
@@ -36,6 +38,14 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
     };
 
     addToCart(cartItem);
+
+    toast({
+      title: `${shopItem.title} x ${quantity} added to cart`,
+      status: "success",
+      position: "top-left",
+      duration: 1000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -44,6 +54,7 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
         <Image
           width={300}
           height={150}
+          layout="responsive"
           src={`https://via.placeholder.com/300x150?text=${shopItem.title}+Image`}
         />
 
