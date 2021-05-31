@@ -27,8 +27,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
             backgroundColor="green.100"
             borderRadius="lg"
             textColor="black"
-            px="2"
-            size="lg"
+            p="2"
             marginRight="2rem"
           >
             x {cartItem.quantity}
