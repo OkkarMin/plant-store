@@ -9,4 +9,5 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  target: "serverless",
 };
