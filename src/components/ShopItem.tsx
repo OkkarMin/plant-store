@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
-import Image from "next/image";
+// import Image from "next/image";
 
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   Button,
   VStack,
   IconButton,
+  Image,
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
