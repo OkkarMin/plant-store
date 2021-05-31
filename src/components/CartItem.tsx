@@ -24,14 +24,14 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
 
         <Flex alignItems="center">
           <Box
-            backgroundColor="green.200"
+            backgroundColor="green.100"
             borderRadius="lg"
             textColor="black"
             px="2"
             size="lg"
             marginRight="2rem"
           >
-            {cartItem.quantity}
+            x {cartItem.quantity}
           </Box>
 
           <Button colorScheme="red" onClick={handleCartItemRemove}>
