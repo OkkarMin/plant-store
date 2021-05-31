@@ -14,6 +14,7 @@ type ShopContextType = {
 }
 
 interface ICartItem {
+  id: number;
   shopItem: IShopItem;
   quantity: number;
 };

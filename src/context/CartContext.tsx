@@ -11,7 +11,7 @@ const CartProvider: React.FC<React.ReactNode> = ({ children }) => {
 
   const removeFromCart = (itemToRemove: ICartItem) => {
     const updatedCart = cart.filter(
-      (cartItem: ICartItem) => cartItem.shopItem.id !== itemToRemove.shopItem.id
+      (cartItem: ICartItem) => cartItem.id !== itemToRemove.id
     );
 
     setCart(updatedCart);

@@ -30,6 +30,7 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
   const { addToCart } = useContext(CartContext) as CartContextType;
   const handleAddToCart = () => {
     const cartItem: ICartItem = {
+      id: Math.random(),
       shopItem,
       quantity,
     };
