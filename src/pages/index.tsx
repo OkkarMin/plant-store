@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 import {
   Button,
@@ -12,10 +13,11 @@ import {
 } from "@chakra-ui/react";
 
 const Index = () => {
+  const [session] = useSession();
   return (
     <Container marginTop="6">
       <VStack align="flex-start">
-        <Heading>Introduction Page</Heading>
+        <Heading>Introduction Page {session?.user!.name}</Heading>
 
         <Text>Made a quick example of how we can utilize shopping cart</Text>
 
@@ -59,6 +61,22 @@ const Index = () => {
             To Cart
           </Button>
         </Link>
+
+        {session && (
+          <Link href="/api/auth/signout">
+            <Button colorScheme="teal" width="full">
+              SignOut
+            </Button>
+          </Link>
+        )}
+
+        {!session && (
+          <Link href="/api/auth/signin">
+            <Button colorScheme="red" width="full">
+              SignIn
+            </Button>
+          </Link>
+        )}
       </VStack>
     </Container>
   );

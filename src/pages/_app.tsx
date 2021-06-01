@@ -1,4 +1,5 @@
 import { AppProps } from "next/app";
+import { Provider } from "next-auth/client";
 import CartProvider from "../context/CartContext";
 import ShopProvider from "../context/ShopContext";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -27,13 +28,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           site_name: "#TheAroidHouse",
         }}
       />
-      <ShopProvider>
-        <CartProvider>
-          <ChakraProvider resetCSS>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </CartProvider>
-      </ShopProvider>
+      <Provider session={pageProps.session}>
+        <ShopProvider>
+          <CartProvider>
+            <ChakraProvider resetCSS>
+              <Component {...pageProps} />
+            </ChakraProvider>
+          </CartProvider>
+        </ShopProvider>
+      </Provider>
     </>
   );
 }

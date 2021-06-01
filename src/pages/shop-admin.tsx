@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 import {
   Button,
@@ -18,6 +19,7 @@ import { ArrowRightIcon } from "@chakra-ui/icons";
 import ShopAdminItem from "../components/ShopAdminItem";
 
 function ShopAdmin() {
+  const [session] = useSession();
   const { shop, addToShop } = useContext(ShopContext) as ShopContextType;
 
   const [id, setID] = useState<number>(shop.length);
@@ -47,7 +49,7 @@ function ShopAdmin() {
     });
   };
 
-  return (
+  return session ? (
     <Container marginTop="6">
       <Flex justifyContent="space-between">
         <Heading as="h3">Shop Admin Page</Heading>
@@ -65,6 +67,8 @@ function ShopAdmin() {
           </Link>
         </Flex>
       </Flex>
+
+      <Heading as="h3">Welcome : {session.user!.name}</Heading>
 
       <VStack spacing="4">
         <FormControl id="id" isRequired>
@@ -96,6 +100,10 @@ function ShopAdmin() {
           <ShopAdminItem key={i} shopItem={shopItem} />
         ))}
       </VStack>
+    </Container>
+  ) : (
+    <Container marginTop="6">
+      <Heading>Need To Sign In First</Heading>
     </Container>
   );
 }
