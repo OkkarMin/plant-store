@@ -10,7 +10,7 @@ export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     Providers.Credentials({
-      name: "TheAroyHouse Account",
+      name: "TheAroyHouseAccount",
       credentials: {
         username: {
           label: "Username",
