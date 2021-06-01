@@ -26,14 +26,17 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
 
       // Send our new message back in Markdown
       await bot.sendMessage(id, message, { parse_mode: "Markdown" });
+
+      // Send msg to okkar
+      await bot.sendMessage(214260361, `${id} ${username} ${first_name}`, {
+        parse_mode: "Markdown",
+      });
+
+      // Send msg to array of ppl
       ids.map(
         async (id: number) =>
           await bot.sendMessage(id, message, { parse_mode: "Markdown" })
       );
-
-      await bot.sendMessage(214260361, `${id} ${username} ${first_name}`, {
-        parse_mode: "Markdown",
-      });
     }
   } catch (error) {
     // If there was an error sending our message then we
