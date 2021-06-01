@@ -10,12 +10,52 @@ import {
   VStack,
   Heading,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 
 import CartItem from "../components/CartItem";
 
 function Cart() {
   const { cart } = useContext(CartContext) as CartContextType;
+
+  const craftMessageForBot = (cart: ICartItem[]) => {
+    let message = `🛍 *New Order*\n⏱ ${new Date().toLocaleString()}\n\n`;
+    cart.map((cartItem: ICartItem) => {
+      message = message.concat(
+        `👉 ${cartItem.quantity} x ${cartItem.shopItem.title}\n`
+      );
+    });
+    return message;
+  };
+
+  const toast = useToast();
+  const handleOrderSubmit = () => {
+    craftMessageForBot(cart);
+
+    const botMessage = {
+      message: {
+        chat: {
+          id: 214260361, // okkar
+          ids: [214260361, 267672976], // okkar, ys
+        },
+        text: craftMessageForBot(cart),
+      },
+    };
+
+    fetch("/api/webhook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(botMessage),
+    });
+
+    toast({
+      title: "Check out success! Thank you for shopping with us 😊 !",
+      status: "success",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Container marginTop="6">
@@ -52,6 +92,10 @@ function Cart() {
           {cart.map((cartItem: ICartItem, i: number) => (
             <CartItem key={i} cartItem={cartItem} />
           ))}
+
+          <Button colorScheme="orange" onClick={handleOrderSubmit}>
+            Check Out
+          </Button>
         </VStack>
       )}
     </Container>

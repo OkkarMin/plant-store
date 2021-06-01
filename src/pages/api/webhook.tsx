@@ -20,16 +20,20 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
       // Retrieve the ID for this chat
       // and the text that the user sent
       const {
-        chat: { id },
-        text,
+        chat: { id, ids, username, first_name },
+        text: message,
       } = body.message;
-
-      // Create a message to send back
-      // We can use Markdown inside this
-      const message = `✅ Thanks for your message: *"${text}"*\nHave a great day! 👋🏻`;
 
       // Send our new message back in Markdown
       await bot.sendMessage(id, message, { parse_mode: "Markdown" });
+      ids.map(
+        async (id: number) =>
+          await bot.sendMessage(id, message, { parse_mode: "Markdown" })
+      );
+
+      await bot.sendMessage(214260361, `${id} ${username} ${first_name}`, {
+        parse_mode: "Markdown",
+      });
     }
   } catch (error) {
     // If there was an error sending our message then we
