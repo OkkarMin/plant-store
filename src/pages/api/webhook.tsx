@@ -20,23 +20,35 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
       // Retrieve the ID for this chat
       // and the text that the user sent
       const {
-        chat: { id, ids, username, first_name },
+        chat: { id },
         text: message,
       } = body.message;
 
-      // Send our new message back in Markdown
-      await bot.sendMessage(id, message, { parse_mode: "Markdown" });
+      // Only admin can send /addUser {id} command
+      const isAdmin: boolean = id === process.env.TELEGRAM_ADMIN;
+      if (isAdmin && message.startsWith("/addUser")) {
+        const idToAdd = message.split(" ")[1];
 
-      // Send msg to okkar
-      await bot.sendMessage(214260361, `${id} ${username} ${first_name}`, {
-        parse_mode: "Markdown",
+        // TODO: store idToAdd in database
+        if (!process.env.TELEGRAM_BOT_MSG_RECEIVERS)
+          process.env.TELEGRAM_BOT_MSG_RECEIVERS = "";
+
+        const existingReceivers = process.env.TELEGRAM_BOT_MSG_RECEIVERS;
+        const updatedReceivers = existingReceivers.concat(` ${idToAdd}`);
+        process.env.TELEGRAM_BOT_MSG_RECEIVERS = updatedReceivers;
+      }
+
+      // Return chatID back to user
+      message.startsWith("/getID") &&
+        (await bot.sendMessage(id, `Your chatID is : ${id}`));
+
+      // Send message to receivers
+      const messageReceivers = process.env.TELEGRAM_BOT_MSG_RECEIVERS;
+      messageReceivers?.split(" ").map(async (id: string) => {
+        await bot.sendMessage(parseInt(id), message, {
+          parse_mode: "Markdown",
+        });
       });
-
-      // Send msg to array of ppl
-      ids.map(
-        async (id: number) =>
-          await bot.sendMessage(id, message, { parse_mode: "Markdown" })
-      );
     }
   } catch (error) {
     // If there was an error sending our message then we
