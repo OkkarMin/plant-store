@@ -25,7 +25,7 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
       } = body.message;
 
       // Only admin can send /addUser {id} command
-      const isAdmin: boolean = id === process.env.TELEGRAM_ADMIN;
+      const isAdmin: boolean = id == process.env.TELEGRAM_ADMIN;
       if (isAdmin && message.startsWith("/addUser")) {
         const idToAdd = message.split(" ")[1];
         console.log("idToAdd", idToAdd);
