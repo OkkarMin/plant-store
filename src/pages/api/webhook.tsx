@@ -36,6 +36,8 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
         const existingReceivers = process.env.TELEGRAM_BOT_MSG_RECEIVERS;
         const updatedReceivers = existingReceivers.concat(` ${idToAdd}`);
         process.env.TELEGRAM_BOT_MSG_RECEIVERS = updatedReceivers;
+
+        console.log(process.env.TELEGRAM_BOT_MSG_RECEIVERS);
       }
 
       // Return chatID back to user
@@ -49,6 +51,7 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
           parse_mode: "Markdown",
         });
       });
+      console.log(messageReceivers);
     }
   } catch (error) {
     // If there was an error sending our message then we
