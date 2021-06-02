@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import TelegramBot from "node-telegram-bot-api";
 
+let MESSAGE_RECEIVERS: string[] = [];
+
 module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
   // https://github.com/yagop/node-telegram-bot-api/issues/319#issuecomment-324963294
   // Fixes an error with Promise cancellation
@@ -31,14 +33,9 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
         console.log("idToAdd", idToAdd);
 
         // TODO: store idToAdd in database
-        if (!process.env.TELEGRAM_BOT_MSG_RECEIVERS)
-          process.env.TELEGRAM_BOT_MSG_RECEIVERS = "";
+        MESSAGE_RECEIVERS.push(idToAdd);
 
-        const existingReceivers = process.env.TELEGRAM_BOT_MSG_RECEIVERS;
-        const updatedReceivers = existingReceivers.concat(` ${idToAdd}`);
-        process.env.TELEGRAM_BOT_MSG_RECEIVERS = updatedReceivers;
-
-        await bot.sendMessage(id, `Successfully added ${idToAdd}`);
+        await bot.sendMessage(id, `Current receivers:\n ${MESSAGE_RECEIVERS}`);
 
         console.log(
           "message receivers: ",
@@ -51,12 +48,12 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
         (await bot.sendMessage(id, `Your chatID is : ${id}`));
 
       // Send message to receivers
-      const messageReceivers = process.env.TELEGRAM_BOT_MSG_RECEIVERS;
-      messageReceivers?.split(" ").map(async (id: string) => {
+      MESSAGE_RECEIVERS.map(async (id) => {
         await bot.sendMessage(parseInt(id), message, {
           parse_mode: "Markdown",
         });
       });
+
       console.log(
         "message receivers: ",
         process.env.TELEGRAM_BOT_MSG_RECEIVERS
