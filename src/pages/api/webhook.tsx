@@ -28,6 +28,7 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
       const isAdmin: boolean = id === process.env.TELEGRAM_ADMIN;
       if (isAdmin && message.startsWith("/addUser")) {
         const idToAdd = message.split(" ")[1];
+        console.log("idToAdd", idToAdd);
 
         // TODO: store idToAdd in database
         if (!process.env.TELEGRAM_BOT_MSG_RECEIVERS)
@@ -37,7 +38,12 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
         const updatedReceivers = existingReceivers.concat(` ${idToAdd}`);
         process.env.TELEGRAM_BOT_MSG_RECEIVERS = updatedReceivers;
 
-        console.log(process.env.TELEGRAM_BOT_MSG_RECEIVERS);
+        await bot.sendMessage(id, `Successfully added ${idToAdd}`);
+
+        console.log(
+          "message receivers: ",
+          process.env.TELEGRAM_BOT_MSG_RECEIVERS
+        );
       }
 
       // Return chatID back to user
@@ -51,7 +57,10 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
           parse_mode: "Markdown",
         });
       });
-      console.log(messageReceivers);
+      console.log(
+        "message receivers: ",
+        process.env.TELEGRAM_BOT_MSG_RECEIVERS
+      );
     }
   } catch (error) {
     // If there was an error sending our message then we
