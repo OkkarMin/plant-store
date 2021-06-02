@@ -37,10 +37,7 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
 
         await bot.sendMessage(id, `Current receivers:\n ${MESSAGE_RECEIVERS}`);
 
-        console.log(
-          "message receivers: ",
-          process.env.TELEGRAM_BOT_MSG_RECEIVERS
-        );
+        console.log(MESSAGE_RECEIVERS);
       }
 
       // Return chatID back to user
@@ -54,10 +51,7 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
         });
       });
 
-      console.log(
-        "message receivers: ",
-        process.env.TELEGRAM_BOT_MSG_RECEIVERS
-      );
+      console.log(MESSAGE_RECEIVERS);
     }
   } catch (error) {
     // If there was an error sending our message then we
