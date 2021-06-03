@@ -1,8 +1,11 @@
 import { useContext } from "react";
-
 import { CartContext } from "../context/CartContext";
 
 import { Box, Flex, Heading, Button, HStack, useToast } from "@chakra-ui/react";
+
+import { CartContextType } from "next-env";
+
+import { CartItem as ICartItem } from "domain/models/entities/CartItem";
 
 type Props = {
   cartItem: ICartItem;
@@ -16,7 +19,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
     removeFromCart(cartItem);
 
     toast({
-      title: `${cartItem.shopItem.title} x ${cartItem.quantity} removed from cart`,
+      title: `${cartItem.shopItem.name} x ${cartItem.quantity} removed from cart`,
       status: "warning",
       position: "top-left",
       duration: 1000,
@@ -28,7 +31,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
     <Box width="full" padding="4" borderWidth="1px" borderRadius="lg">
       <HStack justifyContent="space-between">
         <Heading as="h4" size="md">
-          {cartItem.shopItem.title}
+          {cartItem.shopItem.name}
         </Heading>
 
         <Flex alignItems="center">

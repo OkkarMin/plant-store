@@ -15,9 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
+import { CartContextType } from "next-env";
+
 import { ShopItem as IShopItem } from "domain/models/entities/ShopItem";
 import { CartItem as ICartItem } from "domain/models/entities/CartItem";
-import { CartContextType } from "next-env";
 
 type Props = {
   shopItem: IShopItem;
@@ -58,7 +59,7 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
           width={300}
           height={150}
           layout="responsive"
-          src={`https://via.placeholder.com/300x150?text=${shopItem.title}+Image`}
+          src={`https://via.placeholder.com/300x150?text=${shopItem.name}+Image`}
         />
 
         <Heading as="h4" size="md" padding="2">

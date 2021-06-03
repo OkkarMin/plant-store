@@ -15,14 +15,18 @@ import {
 
 import CartItem from "../components/CartItem";
 
+import { CartContextType } from "next-env";
+
+import { CartItem as ICartItem } from "domain/models/entities/CartItem";
+
 function Cart() {
   const { cart } = useContext(CartContext) as CartContextType;
 
-  const craftMessageForBot = (cart: ICartItem[]) => {
+  const craftTextForBot = (cart: any) => {
     let message = `🛍 *New Order*\n⏱ ${new Date().toLocaleString()}\n\n`;
     cart.map((cartItem: ICartItem) => {
       message = message.concat(
-        `👉 ${cartItem.quantity} x ${cartItem.shopItem.title}\n`
+        `👉 ${cartItem.quantity} x ${cartItem.shopItem.name}\n`
       );
     });
     return message;
@@ -30,15 +34,13 @@ function Cart() {
 
   const toast = useToast();
   const handleOrderSubmit = () => {
-    craftMessageForBot(cart);
-
     const botMessage = {
       message: {
         chat: {
           id: 214260361, // okkar
           ids: [214260361, 267672976], // okkar, ys
         },
-        text: craftMessageForBot(cart),
+        text: craftTextForBot(cart),
       },
     };
 
@@ -89,9 +91,16 @@ function Cart() {
         </VStack>
       ) : (
         <VStack marginTop="6" spacing="4">
-          {cart.map((cartItem: ICartItem, i: number) => (
+          {cart.map((cartItem: any, i: number) => (
             <CartItem key={i} cartItem={cartItem} />
           ))}
+
+          <Button isDisabled>
+            Total :{" "}
+            {cart.reduce((total: number, cartItem: any) => {
+              return total + cartItem.value;
+            }, 0)}
+          </Button>
 
           <Button colorScheme="orange" onClick={handleOrderSubmit}>
             Check Out

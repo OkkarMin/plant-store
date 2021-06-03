@@ -1,23 +1,23 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 
+import { ShopItem } from "domain/models/entities/ShopItem";
 
 interface IShopItem {
   id: number;
   title: string;
-};
+}
 
 type ShopContextType = {
   shop: IShopItem[];
   addToShop: (item: IShopItem) => void;
   removeFromShop: (item: IShopItem) => void;
-}
+};
 
 interface ICartItem {
-  id: number;
-  shopItem: IShopItem;
+  shopItem: ShopItem;
   quantity: number;
-};
+}
 
 type CartContextType = {
   cart: ICartItem[];

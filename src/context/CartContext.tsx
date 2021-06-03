@@ -3,7 +3,7 @@ import * as React from "react";
 export const CartContext = React.createContext<CartContextType | null>(null);
 
 const CartProvider: React.FC<React.ReactNode> = ({ children }) => {
-  const [cart, setCart] = React.useState<ICartItem[]>([]);
+  const [cart, setCart] = React.useState<any>([]);
 
   const addToCart = (itemToAdd: ICartItem) => {
     setCart([...cart, itemToAdd]);
@@ -11,7 +11,8 @@ const CartProvider: React.FC<React.ReactNode> = ({ children }) => {
 
   const removeFromCart = (itemToRemove: ICartItem) => {
     const updatedCart = cart.filter(
-      (cartItem: ICartItem) => cartItem.id !== itemToRemove.id
+      // @ts-ignore
+      (cartItem: ICartItem) => cartItem._id !== itemToRemove._id
     );
 
     setCart(updatedCart);
