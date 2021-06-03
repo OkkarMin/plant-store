@@ -1,7 +1,7 @@
 import { AggregateRoot, Result } from "types-ddd";
 import { ShopItem } from "domain/models/entities/ShopItem";
 
-interface ShopAggregateProp {
+export interface ShopAggregateProp {
   name: string;
   shopItems: ShopItem[];
 }
