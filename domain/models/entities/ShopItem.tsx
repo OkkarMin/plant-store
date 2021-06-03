@@ -1,4 +1,4 @@
-import { Entity, BaseDomainEntity, Result } from "types-ddd";
+import { Entity, BaseDomainEntity, Result, UniqueEntityID } from "types-ddd";
 
 interface ShopItemProps extends BaseDomainEntity {
   id: number;
@@ -11,8 +11,8 @@ interface ShopItemProps extends BaseDomainEntity {
 }
 
 export class ShopItem extends Entity<ShopItemProps> {
-  private constructor(props: ShopItemProps) {
-    super(props);
+  private constructor(props: ShopItemProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get id(): number {
@@ -43,7 +43,10 @@ export class ShopItem extends Entity<ShopItemProps> {
     return this.props.value;
   }
 
-  public static create(props: ShopItemProps): Result<ShopItem> {
+  public static create(
+    props: ShopItemProps,
+    id?: UniqueEntityID
+  ): Result<ShopItem> {
     if (
       !props.id &&
       !props.images &&
@@ -56,6 +59,6 @@ export class ShopItem extends Entity<ShopItemProps> {
       );
     }
 
-    return Result.ok<ShopItem>(new ShopItem(props));
+    return Result.ok<ShopItem>(new ShopItem(props, id));
   }
 }

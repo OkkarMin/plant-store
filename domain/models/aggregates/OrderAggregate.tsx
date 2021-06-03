@@ -22,8 +22,8 @@ interface OrderAggregateProps {
 }
 
 export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
-  private constructor(props: OrderAggregateProps) {
-    super(props);
+  private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get orderID(): UniqueEntityID {
@@ -51,13 +51,16 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     });
   }
 
-  public static create(props: OrderAggregateProps): Result<OrderAggregate> {
+  public static create(
+    props: OrderAggregateProps,
+    id?: UniqueEntityID
+  ): Result<OrderAggregate> {
     if (!props.cart && !props.customer && !props.currentState) {
       return Result.fail<OrderAggregate>(
         "Required details for OrderAggregate are not provided"
       );
     }
 
-    return Result.ok<OrderAggregate>(new OrderAggregate(props));
+    return Result.ok<OrderAggregate>(new OrderAggregate(props, id));
   }
 }

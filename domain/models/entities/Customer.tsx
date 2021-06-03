@@ -1,4 +1,4 @@
-import { Entity, BaseDomainEntity, Result } from "types-ddd";
+import { Entity, BaseDomainEntity, Result, UniqueEntityID } from "types-ddd";
 
 interface CustomerProps extends BaseDomainEntity {
   firstName: string;
@@ -7,8 +7,8 @@ interface CustomerProps extends BaseDomainEntity {
 }
 
 export class Customer extends Entity<CustomerProps> {
-  private constructor(props: CustomerProps) {
-    super(props);
+  private constructor(props: CustomerProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get firstName(): string {
@@ -27,7 +27,10 @@ export class Customer extends Entity<CustomerProps> {
     return this.props.phoneNumber.toString() + this.props.firstName;
   }
 
-  public static create(props: CustomerProps): Result<Customer> {
+  public static create(
+    props: CustomerProps,
+    id?: UniqueEntityID
+  ): Result<Customer> {
     if (!props.firstName && !props.lastName && !props.phoneNumber) {
       return Result.fail<Customer>(
         "Required details for customer is not provided"
@@ -45,6 +48,6 @@ export class Customer extends Entity<CustomerProps> {
       return Result.fail<Customer>("Phone number must start with 9 or 8");
     }
 
-    return Result.ok<Customer>(new Customer(props));
+    return Result.ok<Customer>(new Customer(props, id));
   }
 }

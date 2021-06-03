@@ -9,13 +9,8 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
   const { db } = await connectToDatabase();
   const shopRepo = MongoShopRepository.create(db);
 
-  const newItem = ShopItem.create({
-      id: 3,
-      images: ["/image1.png", "/image2.png"],
-      name: "Cow Fertilizer",
-      description: "cheap cheap cow fertilizer",
-      value: 20,
-    }).getResult()
+  const { body } = request;
+  const newItem = ShopItem.create(body).getResult();
 
   const result = await addItemToShop({
     shopRepo,

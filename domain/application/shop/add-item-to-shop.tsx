@@ -22,11 +22,7 @@ export const addItemToShop = async ({
     shopItems: shop.props.shopItems,
   }).getResult();
 
-  // shop = ShopAggregate.create({
-  //   name: shopName,
-  //   shopItems: [shopItem],
-  // }).getResult();
-
   const updatedShop = shop.addShopItem(shopItem);
-  return await shopRepo.save(updatedShop);
+
+  return await shopRepo.update(updatedShop);
 };

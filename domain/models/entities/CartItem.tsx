@@ -1,4 +1,4 @@
-import { Entity, BaseDomainEntity, Result } from "types-ddd";
+import { Entity, BaseDomainEntity, Result, UniqueEntityID } from "types-ddd";
 import { ShopItem } from "domain/models/entities/ShopItem";
 
 interface CartItemProps extends BaseDomainEntity {
@@ -8,8 +8,8 @@ interface CartItemProps extends BaseDomainEntity {
 }
 
 export class CartItem extends Entity<CartItemProps> {
-  private constructor(props: CartItemProps) {
-    super(props);
+  private constructor(props: CartItemProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get value(): number {
@@ -28,13 +28,16 @@ export class CartItem extends Entity<CartItemProps> {
     return this.props.variant;
   }
 
-  public static create(props: CartItemProps): Result<CartItem> {
+  public static create(
+    props: CartItemProps,
+    id?: UniqueEntityID
+  ): Result<CartItem> {
     if (!props.shopItem && !props.quantity && !props.variant) {
       return Result.fail<CartItem>(
         "Required details for cart item is not provided"
       );
     }
 
-    return Result.ok<CartItem>(new CartItem(props));
+    return Result.ok<CartItem>(new CartItem(props, id));
   }
 }

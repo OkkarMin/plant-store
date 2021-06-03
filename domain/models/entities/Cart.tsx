@@ -1,4 +1,4 @@
-import { Entity, BaseDomainEntity, Result } from "types-ddd";
+import { Entity, BaseDomainEntity, Result, UniqueEntityID } from "types-ddd";
 import { CartItem } from "domain/models/entities/CartItem";
 
 interface CartProps extends BaseDomainEntity {
@@ -8,8 +8,8 @@ interface CartProps extends BaseDomainEntity {
 }
 
 export class Cart extends Entity<CartProps> {
-  private constructor(props: CartProps) {
-    super(props);
+  private constructor(props: CartProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get totalAmount(): number {
@@ -25,11 +25,11 @@ export class Cart extends Entity<CartProps> {
     return this.props.isSelfCollect;
   }
 
-  public static create(props: CartProps): Result<Cart> {
+  public static create(props: CartProps, id?: UniqueEntityID): Result<Cart> {
     if (!props.cartItems && !props.totalAmount && !props.isSelfCollect) {
       return Result.fail<Cart>("Required details for cart is not provided");
     }
 
-    return Result.ok<Cart>(new Cart(props));
+    return Result.ok<Cart>(new Cart(props, id));
   }
 }

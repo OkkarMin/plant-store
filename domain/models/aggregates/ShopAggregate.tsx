@@ -1,4 +1,4 @@
-import { AggregateRoot, Result } from "types-ddd";
+import { AggregateRoot, Result, UniqueEntityID } from "types-ddd";
 import { ShopItem } from "domain/models/entities/ShopItem";
 
 export interface ShopAggregateProp {
@@ -7,8 +7,8 @@ export interface ShopAggregateProp {
 }
 
 export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
-  private constructor(props: ShopAggregateProp) {
-    super(props);
+  private constructor(props: ShopAggregateProp, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   get shopName(): string {
@@ -41,7 +41,10 @@ export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
     return this;
   }
 
-  public static create(props: ShopAggregateProp): Result<ShopAggregate> {
+  public static create(
+    props: ShopAggregateProp,
+    id?: UniqueEntityID
+  ): Result<ShopAggregate> {
     if (!props.name && !props.shopItems) {
       return Result.fail<ShopAggregate>(
         "Required details for shop are not provided"
@@ -59,6 +62,6 @@ export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
         "Must have at least one shop item in shop"
       );
     }
-    return Result.ok<ShopAggregate>(new ShopAggregate(props));
+    return Result.ok<ShopAggregate>(new ShopAggregate(props, id));
   }
 }
