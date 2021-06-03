@@ -3,11 +3,11 @@ import { Cart } from "domain/models/entities/Cart";
 import { Customer } from "domain/models/entities/Customer";
 
 export enum OrderState {
-  PAYMENT_UNCONFIMRED,
-  PAYMENT_CONFIRMED,
-  PACKED,
-  ON_DELIVERY,
-  DELIVERED,
+  PAYMENT_UNCONFIMRED = "PAYMENT_UNCONFIRMED",
+  PAYMENT_CONFIRMED = "PAYMENT_CONFIRMED",
+  PACKED = "PACKED",
+  ON_DELIVERY = "ON_DELIVERY",
+  DELIVERED = "DELIVERED",
 }
 
 type OrderHistory = {
@@ -18,21 +18,18 @@ type OrderHistory = {
 interface OrderAggregateProps {
   cart: Cart;
   customer: Customer;
-  currentState: OrderState;
-  orderHistory: OrderHistory[];
 }
 
 export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public cart: Cart;
   public customer: Customer;
-  public currentState: OrderState;
-  public orderHistory: OrderHistory[] = [];
+  public currentState?: OrderState;
+  public orderHistory?: OrderHistory[] = [];
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
     this.cart = props.cart;
     this.customer = props.customer;
-    this.currentState = props.currentState;
   }
 
   get orderID(): UniqueEntityID {
@@ -45,7 +42,9 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   }
 
   public changeState(newOrderState: OrderState): OrderAggregate {
-    this.orderHistory.push({
+    this.currentState = newOrderState;
+
+    this.orderHistory!.push({
       dateTime: new Date(),
       orderState: newOrderState,
     });
@@ -57,7 +56,7 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     props: OrderAggregateProps,
     id?: UniqueEntityID
   ): Result<OrderAggregate> {
-    if (!props.cart && !props.customer && !props.currentState) {
+    if (!props.cart && !props.customer) {
       return Result.fail<OrderAggregate>(
         "Required details for OrderAggregate are not provided"
       );
