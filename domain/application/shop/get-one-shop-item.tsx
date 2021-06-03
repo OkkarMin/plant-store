@@ -7,8 +7,6 @@ interface IGetOneShopItem {
 
 export const getOneShopItem = async ({ shopRepo, slug }: IGetOneShopItem) => {
   const shop = await shopRepo.getOne("TheAroyHouse");
-  // @ts-ignore
-  const shopItems = shop.props.shopItems;
-  // @ts-ignore
-  return shopItems.find((item) => item.props.slug === slug);
+  const shopItems = shop.shopItems;
+  return shopItems.find((item) => item.slug === slug);
 };

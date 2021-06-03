@@ -16,10 +16,8 @@ export const addItemToShop = async ({
   let shop = await shopRepo.getOne(shopName);
 
   shop = ShopAggregate.create({
-    // @ts-ignore
-    name: shop.props.name,
-    // @ts-ignore
-    shopItems: shop.props.shopItems,
+    name: shop.name,
+    shopItems: shop.shopItems,
   }).getResult();
 
   const updatedShop = shop.addShopItem(shopItem);

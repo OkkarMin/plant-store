@@ -10,10 +10,8 @@ export const getOneShop = async ({ shopRepo, shopName }: IGetOneShop) => {
   let shop = await shopRepo.getOne(shopName);
 
   shop = ShopAggregate.create({
-    // @ts-ignore
-    name: shop.props.name,
-    // @ts-ignore
-    name: shop.props.shopItems,
+    name: shop.name,
+    shopItems: shop.shopItems,
   }).getResult();
 
   return shop;

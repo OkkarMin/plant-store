@@ -7,24 +7,13 @@ export interface ShopAggregateProp {
 }
 
 export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
+  public name: string;
+  public shopItems: ShopItem[];
+
   private constructor(props: ShopAggregateProp, id?: UniqueEntityID) {
     super(props, id);
-  }
-
-  get shopName(): string {
-    return this.props.name;
-  }
-
-  get shopItems(): ShopItem[] {
-    return this.props.shopItems;
-  }
-
-  public getShopItemByID(idToGet: number): ShopItem {
-    let result = this.props.shopItems.find((item) => item.id === idToGet);
-
-    if (!result) throw new Error("ShopItem with given ID not found");
-
-    return result;
+    this.name = props.name;
+    this.shopItems = props.shopItems;
   }
 
   public getShopItemBySlug(slug: string): ShopItem {
@@ -36,7 +25,7 @@ export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
   }
 
   public addShopItem(newShopItem: ShopItem): ShopAggregate {
-    this.props.shopItems.push(newShopItem);
+    this.shopItems.push(newShopItem);
 
     return this;
   }

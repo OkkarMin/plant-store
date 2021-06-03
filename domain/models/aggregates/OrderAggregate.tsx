@@ -3,11 +3,11 @@ import { Cart } from "domain/models/entities/Cart";
 import { Customer } from "domain/models/entities/Customer";
 
 type OrderStateType =
-  | "payment-unconfirmed"
-  | "payment-confirmed"
-  | "packed"
-  | "on-delivery"
-  | "delivered";
+  | "PAYMENT-UNCONFIRMED"
+  | "PAYMENT-CONFIRMED"
+  | "PACKED"
+  | "ON-DELIVERY"
+  | "DELIVERED";
 
 type OrderHistory = {
   dateTime: Date;
@@ -22,32 +22,34 @@ interface OrderAggregateProps {
 }
 
 export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
+  public cart: Cart;
+  public customer: Customer;
+  public currentState: OrderStateType;
+  public orderHistory: OrderHistory[];
+
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
+    this.cart = props.cart;
+    this.customer = props.customer;
+    this.currentState = props.currentState;
+    this.orderHistory = props.orderHistory;
   }
 
   get orderID(): UniqueEntityID {
     return this._id;
   }
 
-  get cart(): Cart {
-    return this.props.cart;
-  }
-
   get totalAmount(): number {
-    return this.props.cart.totalAmount;
-  }
-
-  get currentState(): OrderStateType {
-    return this.props.currentState;
+    const cartTotalAmount = this.cart.cartTotalAmount();
+    return this.cart.isSelfCollect ? cartTotalAmount : cartTotalAmount + 10;
   }
 
   public changeState(newOrderState: OrderStateType): void {
-    this.props.currentState = newOrderState;
+    this.currentState = newOrderState;
 
-    this.props.orderHistory.push({
+    this.orderHistory.push({
       dateTime: new Date(),
-      orderState: this.props.currentState,
+      orderState: this.currentState,
     });
   }
 

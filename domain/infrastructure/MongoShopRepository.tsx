@@ -1,5 +1,4 @@
 import { ShopAggregate } from "domain/models/aggregates/ShopAggregate";
-import { ShopItem } from "domain/models/entities/ShopItem";
 import { IShopRepo } from "domain/models/infrastructure/IShopRepository";
 
 export class MongoShopRepository implements IShopRepo {
@@ -14,7 +13,7 @@ export class MongoShopRepository implements IShopRepo {
   }
 
   async update(shop: ShopAggregate): Promise<boolean> {
-    await this.db.collection("shop").deleteOne({ "props.name": shop.shopName });
+    await this.db.collection("shop").deleteOne({ name: shop.name });
 
     return await this.save(shop);
   }
@@ -28,7 +27,7 @@ export class MongoShopRepository implements IShopRepo {
   }
 
   getOne(shopName: string): Promise<ShopAggregate> {
-    return this.db.collection("shop").findOne({ "props.name": shopName });
+    return this.db.collection("shop").findOne({ name: shopName });
   }
 
   public static create(db: any): MongoShopRepository {

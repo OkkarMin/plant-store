@@ -7,24 +7,17 @@ interface CustomerProps extends BaseDomainEntity {
 }
 
 export class Customer extends Entity<CustomerProps> {
+  public customerID: string;
+  public firstName: string;
+  public lastName: string;
+  public phoneNumber: number;
+
   private constructor(props: CustomerProps, id?: UniqueEntityID) {
     super(props, id);
-  }
-
-  get firstName(): string {
-    return this.props.firstName;
-  }
-
-  get lastName(): string {
-    return this.props.lastName;
-  }
-
-  get phoneNumber(): number {
-    return this.props.phoneNumber;
-  }
-
-  get customerID(): string {
-    return this.props.phoneNumber.toString() + this.props.firstName;
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
+    this.phoneNumber = props.phoneNumber;
+    this.customerID = this.phoneNumber.toString() + this.firstName;
   }
 
   public static create(

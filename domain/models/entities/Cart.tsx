@@ -3,30 +3,32 @@ import { CartItem } from "domain/models/entities/CartItem";
 
 interface CartProps extends BaseDomainEntity {
   cartItems: CartItem[];
-  totalAmount: number;
   isSelfCollect: boolean;
 }
 
 export class Cart extends Entity<CartProps> {
+  public cartItems: CartItem[];
+  public isSelfCollect: boolean;
+
   private constructor(props: CartProps, id?: UniqueEntityID) {
     super(props, id);
+    this.cartItems = props.cartItems;
+    this.isSelfCollect = props.isSelfCollect;
   }
 
-  get totalAmount(): number {
-    let result = 0;
-    this.props.cartItems.map(
-      (cartItem: CartItem) => (result += cartItem.value)
+  public addCartItem(cartItem: CartItem): void {
+    this.cartItems.push(cartItem);
+  }
+
+  public cartTotalAmount(): number {
+    return this.cartItems.reduce(
+      (total: number, cartItem: CartItem) => total + cartItem.value,
+      0
     );
-
-    return result;
-  }
-
-  get isSelfCollect(): boolean {
-    return this.props.isSelfCollect;
   }
 
   public static create(props: CartProps, id?: UniqueEntityID): Result<Cart> {
-    if (!props.cartItems && !props.totalAmount && !props.isSelfCollect) {
+    if (!props.cartItems && !props.isSelfCollect) {
       return Result.fail<Cart>("Required details for cart is not provided");
     }
 

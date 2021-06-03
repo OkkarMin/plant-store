@@ -14,7 +14,6 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
   const { name, shopItems } = body;
 
   const shopItem = ShopItem.create({
-    id: shopItems[0].id,
     images: shopItems[0].images,
     name: shopItems[0].name,
     description: shopItems[0].description,
