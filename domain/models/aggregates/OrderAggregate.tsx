@@ -2,29 +2,30 @@ import { AggregateRoot, Result, UniqueEntityID } from "types-ddd";
 import { Cart } from "domain/models/entities/Cart";
 import { Customer } from "domain/models/entities/Customer";
 
-type OrderStateType =
-  | "PAYMENT-UNCONFIRMED"
-  | "PAYMENT-CONFIRMED"
-  | "PACKED"
-  | "ON-DELIVERY"
-  | "DELIVERED";
+export enum OrderState {
+  PAYMENT_UNCONFIMRED,
+  PAYMENT_CONFIRMED,
+  PACKED,
+  ON_DELIVERY,
+  DELIVERED,
+}
 
 type OrderHistory = {
   dateTime: Date;
-  orderState: OrderStateType;
+  orderState: OrderState;
 };
 
 interface OrderAggregateProps {
   cart: Cart;
   customer: Customer;
-  currentState: OrderStateType;
+  currentState: OrderState;
   orderHistory: OrderHistory[];
 }
 
 export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public cart: Cart;
   public customer: Customer;
-  public currentState: OrderStateType;
+  public currentState: OrderState;
   public orderHistory: OrderHistory[];
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
@@ -44,7 +45,7 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     return this.cart.isSelfCollect ? cartTotalAmount : cartTotalAmount + 10;
   }
 
-  public changeState(newOrderState: OrderStateType): void {
+  public changeState(newOrderState: OrderState): void {
     this.currentState = newOrderState;
 
     this.orderHistory.push({
