@@ -15,6 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
+import { ShopItem as IShopItem } from "domain/models/entities/ShopItem";
+import { CartItem as ICartItem } from "domain/models/entities/CartItem";
+import { CartContextType } from "next-env";
+
 type Props = {
   shopItem: IShopItem;
 };
@@ -31,16 +35,15 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
   const toast = useToast();
   const { addToCart } = useContext(CartContext) as CartContextType;
   const handleAddToCart = () => {
-    const cartItem: ICartItem = {
-      id: Math.random(),
+    const cartItem = ICartItem.create({
       shopItem,
       quantity,
-    };
+    }).getResult();
 
     addToCart(cartItem);
 
     toast({
-      title: `${shopItem.title} x ${quantity} added to cart`,
+      title: `${shopItem.name} x ${quantity} added to cart`,
       status: "success",
       position: "top-left",
       duration: 1000,
@@ -59,7 +62,11 @@ const ShopItem: React.FC<Props> = ({ shopItem }) => {
         />
 
         <Heading as="h4" size="md" padding="2">
-          {shopItem.title}
+          {shopItem.name}
+        </Heading>
+
+        <Heading as="h4" size="md" padding="2">
+          S${shopItem.value}
         </Heading>
 
         <Flex alignItems="center">

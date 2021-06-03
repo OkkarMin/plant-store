@@ -4,13 +4,13 @@ import { ShopItem } from "domain/models/entities/ShopItem";
 interface CartItemProps extends BaseDomainEntity {
   shopItem: ShopItem;
   quantity: number;
-  variant: string;
+  variant?: string;
 }
 
 export class CartItem extends Entity<CartItemProps> {
   public shopItem: ShopItem;
   public quantity: number;
-  public variant: string;
+  public variant?: string;
   public value: number;
 
   private constructor(props: CartItemProps, id?: UniqueEntityID) {
