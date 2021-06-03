@@ -22,13 +22,13 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
     slug: shopItems[0].slug,
   }).getResult();
 
-  const shop = ShopAggregate.create({
+  const newShop = ShopAggregate.create({
     name,
     shopItems: [shopItem],
   }).getResult();
 
 
-  const result = await addShop({shopRepo, shop})
+  const result = await addShop({shopRepo, shop: newShop})
 
   response.status(200).json(result);
 };
