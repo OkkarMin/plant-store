@@ -5,6 +5,7 @@ interface ShopItemProps extends BaseDomainEntity {
   images: string[];
   name: string;
   description: string;
+  slug: string;
   variants?: string[];
   value: number;
 }
@@ -27,7 +28,7 @@ export class ShopItem extends Entity<ShopItemProps> {
   }
 
   get slug(): string {
-    return this.props.name.toLowerCase().replace(" ", "-");
+    return this.props.slug;
   }
 
   get description(): string {

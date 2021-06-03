@@ -1,3 +1,4 @@
+import { ShopAggregate } from "domain/models/aggregates/ShopAggregate";
 import { ShopItem } from "domain/models/entities/ShopItem";
 import { IShopRepo } from "domain/models/infrastructure/IShopRepository";
 
@@ -12,7 +13,20 @@ export const addItemToShop = async ({
   shopItem,
   shopName,
 }: IAddItemToShop) => {
-  const shop = await shopRepo.getOne(shopName);
+  let shop = await shopRepo.getOne(shopName);
+
+  shop = ShopAggregate.create({
+    // @ts-ignore
+    name: shop.props.name,
+    // @ts-ignore
+    shopItems: shop.props.shopItems,
+  }).getResult();
+
+  // shop = ShopAggregate.create({
+  //   name: shopName,
+  //   shopItems: [shopItem],
+  // }).getResult();
+
   const updatedShop = shop.addShopItem(shopItem);
-  return await shopRepo.update(updatedShop);
+  return await shopRepo.save(updatedShop);
 };
