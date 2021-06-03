@@ -12,7 +12,6 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
 
   const result = await getOneShopItem({
     shopRepo,
-    shopName: "TheAroyHouse",
     // @ts-ignore
     slug,
   });

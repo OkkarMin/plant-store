@@ -1,4 +1,5 @@
 import { ShopAggregate } from "domain/models/aggregates/ShopAggregate";
+import { ShopItem } from "domain/models/entities/ShopItem";
 import { IShopRepo } from "domain/models/infrastructure/IShopRepository";
 
 export class MongoShopRepository implements IShopRepo {
