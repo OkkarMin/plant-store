@@ -11,6 +11,10 @@ export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
     super(props);
   }
 
+  get shopName(): string {
+    return this.props.name;
+  }
+
   get shopItems(): ShopItem[] {
     return this.props.shopItems;
   }
