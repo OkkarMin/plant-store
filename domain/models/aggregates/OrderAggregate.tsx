@@ -26,14 +26,13 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public cart: Cart;
   public customer: Customer;
   public currentState: OrderState;
-  public orderHistory: OrderHistory[];
+  public orderHistory: OrderHistory[] = [];
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
     this.cart = props.cart;
     this.customer = props.customer;
     this.currentState = props.currentState;
-    this.orderHistory = props.orderHistory;
   }
 
   get orderID(): UniqueEntityID {
@@ -42,16 +41,16 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
 
   get totalAmount(): number {
     const cartTotalAmount = this.cart.cartTotalAmount();
-    return this.cart.isSelfCollect ? cartTotalAmount : cartTotalAmount + 10;
+    return this.cart.isSelfCollect ? cartTotalAmount : cartTotalAmount + 10; // delivery fee
   }
 
-  public changeState(newOrderState: OrderState): void {
-    this.currentState = newOrderState;
-
+  public changeState(newOrderState: OrderState): OrderAggregate {
     this.orderHistory.push({
       dateTime: new Date(),
-      orderState: this.currentState,
+      orderState: newOrderState,
     });
+
+    return this;
   }
 
   public static create(
