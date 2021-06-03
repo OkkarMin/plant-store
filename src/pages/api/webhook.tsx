@@ -1,5 +1,6 @@
 // Require our Telegram helper package
 import type { NextApiRequest, NextApiResponse } from "next";
+// @ts-ignore
 import TelegramBot from "node-telegram-bot-api";
 
 let MESSAGE_RECEIVERS: string[] = [];
