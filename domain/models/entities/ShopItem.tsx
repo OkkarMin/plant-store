@@ -26,6 +26,10 @@ export class ShopItem extends Entity<ShopItemProps> {
     return this.props.name;
   }
 
+  get slug(): string {
+    return this.props.name.toLowerCase().replace(" ", "-");
+  }
+
   get description(): string {
     return this.props.description;
   }
