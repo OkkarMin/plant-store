@@ -27,12 +27,10 @@ export class ShopAggregate extends AggregateRoot<ShopAggregateProp> {
     return result;
   }
 
-  public getShopItemByName(itemNameToGet: string): ShopItem {
-    let result = this.props.shopItems.find(
-      (item) => item.name === itemNameToGet
-    );
+  public getShopItemBySlug(slug: string): ShopItem {
+    let result = this.props.shopItems.find((item) => item.slug === slug);
 
-    if (!result) throw new Error("ShopItem with given ID not found");
+    if (!result) throw new Error("ShopItem with given slug not found");
 
     return result;
   }
