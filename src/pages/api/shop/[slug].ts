@@ -17,6 +17,9 @@ module.exports = async (request: NextApiRequest, response: NextApiResponse) => {
     slug,
   });
 
-  // response.status(200).json(result);
-  response.status(200).json(result);
+  if (!result) {
+    return response.status(404).json({ 'error': `${slug} not found` })
+  }
+
+  return response.status(200).json(result);
 };

@@ -1,4 +1,3 @@
-import { ShopAggregate } from "domain/models/aggregates/ShopAggregate";
 import { IShopRepo } from "domain/models/infrastructure/IShopRepository";
 
 interface IGetOneShopItem {
@@ -12,14 +11,11 @@ export const getOneShopItem = async ({
   shopName,
   slug,
 }: IGetOneShopItem) => {
-  let shop = await shopRepo.getOne(shopName);
+  const shop = await shopRepo.getOne(shopName);
 
-  shop = ShopAggregate.create({
-    // @ts-ignore
-    name: shop.props.name,
-    // @ts-ignore
-    shopItems: shop.props.shopItems,
-  }).getResult();
+  // @ts-ignore
+  const shopItems = shop.props.shopItems;
 
-  return shop.getShopItemBySlug(slug);
+  // @ts-ignore
+  return shopItems.find((item) => item.props.slug === slug);
 };

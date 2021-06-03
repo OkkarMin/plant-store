@@ -12,8 +12,10 @@ export class MongoShopRepository implements IShopRepo {
     return this.db.collection("shop").insertOne(shop);
   }
 
-  update(shop: ShopAggregate): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async update(shop: ShopAggregate): Promise<boolean> {
+    await this.db.collection("shop").deleteOne({ "props.name": shop.shopName });
+
+    return await this.save(shop);
   }
 
   delete(shop: ShopAggregate): Promise<boolean> {
