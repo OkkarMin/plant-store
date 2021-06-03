@@ -13,7 +13,7 @@
     "@chakra-ui/theme-tools": "1.1.2",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
-    "firebase-admin": "^9.9.0",
+    "class-transformer": "^0.4.0",
     "framer-motion": "^4.0.3",
     "next": "latest",
     "next-auth": "^3.24.0",
@@ -21,6 +21,7 @@
     "node-telegram-bot-api": "^0.53.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "reflect-metadata": "^0.1.13",
     "types-ddd": "^0.0.9"
   },
   "devDependencies": {
