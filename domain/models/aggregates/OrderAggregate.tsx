@@ -20,6 +20,7 @@ interface OrderAggregateProps {
   customer: Customer;
   isSelfCollect: boolean;
   currentState?: OrderState;
+  orderID?: UniqueEntityID;
   orderHistory?: OrderHistory[];
   orderTotalAmount?: number;
 }
@@ -29,21 +30,19 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public customer: Customer;
   public currentState: OrderState;
   public isSelfCollect: boolean;
+  public orderID?: UniqueEntityID;
   public orderHistory: OrderHistory[] = [];
   public orderTotalAmount: number;
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
     this.cart = props.cart;
+    this.orderID = id;
     this.customer = props.customer;
     this.isSelfCollect = props.isSelfCollect;
     this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIMRED;
     this.orderHistory = props.orderHistory || [];
     this.orderTotalAmount = this.calculateOrderTotalAmount();
-  }
-
-  get orderID(): UniqueEntityID {
-    return this._id;
   }
 
   public changeState(newOrderState: OrderState): OrderAggregate {
