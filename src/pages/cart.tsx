@@ -35,21 +35,21 @@ function Cart() {
 
   const toast = useToast();
   const handleOrderSubmit = () => {
-    // const botMessage = {
-    //   message: {
-    //     chat: {
-    //       id: 214260361, // okkar
-    //       ids: [214260361, 267672976], // okkar, ys
-    //     },
-    //     text: craftTextForBot(cart),
-    //   },
-    // };
+    const botMessage = {
+      message: {
+        chat: {
+          id: 214260361, // okkar
+          ids: [214260361, 267672976], // okkar, ys
+        },
+        text: craftTextForBot(cart),
+      },
+    };
 
-    // fetch("/api/webhook", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(botMessage),
-    // });
+    fetch("/api/webhook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(botMessage),
+    });
 
     const cartToCheckout = CartEntity.create({
       // @ts-ignore
@@ -70,13 +70,13 @@ function Cart() {
     }).getResult();
     order.changeState(OrderState.PAYMENT_UNCONFIMRED);
 
-    fetch("/api/order/createOrder", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    });
+    // fetch("/api/order/createOrder", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(order),
+    // });
 
     toast({
       title: "Check out success! Thank you for shopping with us 😊 !",
