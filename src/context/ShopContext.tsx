@@ -69,7 +69,7 @@ const ShopProvider: React.FC<React.ReactNode> = ({ children }) => {
 
   const removeFromShop = (itemToRemove: any) => {
     const updatedShop = shop.filter(
-      (shopItem: any) => shopItem.id !== itemToRemove.id
+      (shopItem: any) => shopItem._id !== itemToRemove._id
     );
 
     console.log(updatedShop);

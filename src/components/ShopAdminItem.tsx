@@ -3,6 +3,9 @@ import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 
 import { Box, Flex, Heading, Button, HStack, useToast } from "@chakra-ui/react";
+import { ShopContextType } from "next-env";
+
+import { ShopItem as IShopItem } from "domain/models/entities/ShopItem";
 
 type Props = {
   shopItem: IShopItem;
@@ -16,7 +19,7 @@ const ShopAdminItem: React.FC<Props> = ({ shopItem }) => {
     removeFromShop(shopItem);
 
     toast({
-      title: `${shopItem.title} removed from shop`,
+      title: `${shopItem.name} removed from shop`,
       status: "warning",
       position: "top-left",
       duration: 1000,
@@ -28,7 +31,7 @@ const ShopAdminItem: React.FC<Props> = ({ shopItem }) => {
     <Box width="full" padding="4" borderWidth="1px" borderRadius="lg">
       <HStack justifyContent="space-between">
         <Heading as="h4" size="md">
-          {shopItem.title}
+          {shopItem.name}
         </Heading>
 
         <Flex alignItems="center">
@@ -39,7 +42,7 @@ const ShopAdminItem: React.FC<Props> = ({ shopItem }) => {
             size="lg"
             marginRight="2rem"
           >
-            ID : {shopItem.id}
+            ID : {shopItem.slug}
           </Box>
 
           <Button colorScheme="red" onClick={handleShopItemRemove}>
