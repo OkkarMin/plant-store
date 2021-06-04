@@ -20,8 +20,13 @@ export class MongoOrderRepository implements IOrderRepo {
     throw new Error("Method not implemented.");
   }
 
-  getAll(): Promise<OrderAggregate[]> {
-    return this.db.collection("order").find({});
+  async getAll(): Promise<OrderAggregate[]> {
+    const cursor = await this.db.collection("order").find();
+
+    let result: OrderAggregate[] = [];
+    await cursor.forEach((order: OrderAggregate) => result.push(order));
+
+    return result;
   }
 
   getOne(orderID: number): Promise<OrderAggregate> {
