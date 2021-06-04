@@ -18,27 +18,32 @@ type OrderHistory = {
 interface OrderAggregateProps {
   cart: Cart;
   customer: Customer;
+  isSelfCollect: boolean;
+  currentState?: OrderState;
+  orderHistory?: OrderHistory[];
+  orderTotalAmount?: number;
 }
 
 export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public cart: Cart;
   public customer: Customer;
-  public currentState?: OrderState;
-  public orderHistory?: OrderHistory[] = [];
+  public currentState: OrderState;
+  public isSelfCollect: boolean;
+  public orderHistory: OrderHistory[] = [];
+  public orderTotalAmount: number;
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
     this.cart = props.cart;
     this.customer = props.customer;
+    this.isSelfCollect = props.isSelfCollect;
+    this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIMRED;
+    this.orderHistory = props.orderHistory || [];
+    this.orderTotalAmount = this.calculateOrderTotalAmount();
   }
 
   get orderID(): UniqueEntityID {
     return this._id;
-  }
-
-  get totalAmount(): number {
-    const cartTotalAmount = this.cart.cartTotalAmount();
-    return this.cart.isSelfCollect ? cartTotalAmount : cartTotalAmount + 10; // delivery fee
   }
 
   public changeState(newOrderState: OrderState): OrderAggregate {
@@ -52,11 +57,19 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     return this;
   }
 
+  private calculateOrderTotalAmount(): number {
+    const result = this.isSelfCollect
+      ? this.cart.cartTotalAmount
+      : this.cart.cartTotalAmount! + 10;
+
+    return result!;
+  }
+
   public static create(
     props: OrderAggregateProps,
     id?: UniqueEntityID
   ): Result<OrderAggregate> {
-    if (!props.cart && !props.customer) {
+    if (!props.cart && !props.customer && !props.isSelfCollect) {
       return Result.fail<OrderAggregate>(
         "Required details for OrderAggregate are not provided"
       );

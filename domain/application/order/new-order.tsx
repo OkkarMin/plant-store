@@ -7,5 +7,9 @@ interface INewOrder {
 }
 
 export const newOrder = async ({ orderRepo, orderAggregate }: INewOrder) => {
+  // send telegram message
+
+  // send order confirmation email
+
   return orderRepo.save(orderAggregate);
 };

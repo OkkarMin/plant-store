@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-
 import Link from "next/link";
-
 import {
   Button,
   Container,
@@ -12,12 +10,15 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
-
 import CartItem from "../components/CartItem";
-
 import { CartContextType } from "next-env";
-
 import { CartItem as ICartItem } from "domain/models/entities/CartItem";
+import {
+  OrderAggregate,
+  OrderState,
+} from "domain/models/aggregates/OrderAggregate";
+import { Customer } from "domain/models/entities/Customer";
+import { Cart as CartEntity } from "domain/models/entities/Cart";
 
 function Cart() {
   const { cart } = useContext(CartContext) as CartContextType;
@@ -34,20 +35,52 @@ function Cart() {
 
   const toast = useToast();
   const handleOrderSubmit = () => {
-    const botMessage = {
-      message: {
-        chat: {
-          id: 214260361, // okkar
-          ids: [214260361, 267672976], // okkar, ys
-        },
-        text: craftTextForBot(cart),
-      },
-    };
+    // const botMessage = {
+    //   message: {
+    //     chat: {
+    //       id: 214260361, // okkar
+    //       ids: [214260361, 267672976], // okkar, ys
+    //     },
+    //     text: craftTextForBot(cart),
+    //   },
+    // };
 
-    fetch("/api/webhook", {
+    // fetch("/api/webhook", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(botMessage),
+    // });
+
+    const cartToCheckout = CartEntity.create({
+      // @ts-ignore
+      cartItems: [...cart],
+    }).getResult();
+
+    const customer = Customer.create({
+      firstName: "Okkar",
+      lastName: "Min",
+      phoneNumber: 91234567,
+      email: "phoehtaungwin@gmail.com",
+    }).getResult();
+
+    const order = OrderAggregate.create({
+      cart: cartToCheckout,
+      isSelfCollect: false,
+      customer,
+    }).getResult();
+
+    order.changeState(OrderState.PAYMENT_UNCONFIMRED);
+    order.changeState(OrderState.PAYMENT_CONFIRMED);
+    order.changeState(OrderState.PACKED);
+    order.changeState(OrderState.ON_DELIVERY);
+    order.changeState(OrderState.DELIVERED);
+
+    fetch("/api/order/createOrder", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(botMessage),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
     });
 
     toast({
