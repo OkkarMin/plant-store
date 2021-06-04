@@ -16,6 +16,7 @@ const ShopAdminItem: React.FC<Props> = ({ shopItem }) => {
 
   const toast = useToast();
   const handleShopItemRemove = () => {
+    // @ts-ignore
     removeFromShop(shopItem);
 
     toast({

@@ -30,19 +30,19 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
   public customer: Customer;
   public currentState: OrderState;
   public isSelfCollect: boolean;
-  public orderID?: UniqueEntityID;
+  public orderID: UniqueEntityID;
   public orderHistory: OrderHistory[] = [];
   public orderTotalAmount: number;
 
   private constructor(props: OrderAggregateProps, id?: UniqueEntityID) {
     super(props, id);
     this.cart = props.cart;
-    this.orderID = id;
     this.customer = props.customer;
     this.isSelfCollect = props.isSelfCollect;
     this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIMRED;
     this.orderHistory = props.orderHistory || [];
     this.orderTotalAmount = this.calculateOrderTotalAmount();
+    id ? (this.orderID = id) : (this.orderID = this._id);
   }
 
   public changeState(newOrderState: OrderState): OrderAggregate {
@@ -68,7 +68,7 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     props: OrderAggregateProps,
     id?: UniqueEntityID
   ): Result<OrderAggregate> {
-    if (!props.cart && !props.customer && !props.isSelfCollect) {
+    if (!id && !props.cart && !props.customer && !props.isSelfCollect) {
       return Result.fail<OrderAggregate>(
         "Required details for OrderAggregate are not provided"
       );
