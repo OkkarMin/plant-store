@@ -61,6 +61,11 @@ const Index = () => {
             To Cart
           </Button>
         </Link>
+        <Link href="/admin">
+          <Button colorScheme="cyan" width="full">
+            To Admin
+          </Button>
+        </Link>
 
         {session && (
           <Link href="/api/auth/signout">

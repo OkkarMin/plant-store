@@ -1,4 +1,5 @@
 import React from "react";
+import { mutate } from "swr";
 import {
   Button,
   Box,
@@ -30,7 +31,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
     fetch(
       // @ts-ignore
       `/api/order/changeOrderState?orderID=${orderID.value}&newOrderState=${newOrderState}`
-    );
+    ).then(() => mutate("/api/order"));
   };
 
   return (
@@ -92,7 +93,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
           </MenuItem>
 
           <MenuItem
-            key={5}
+            key={6}
             onClick={() =>
               handleOrderStateChange(order.orderID, OrderState.CANCELLED)
             }
@@ -106,9 +107,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
         <Text>OrderTotal: {order.orderTotalAmount}</Text>
         <Text>OrderState: {order.currentState}</Text>
       </Box>
-      {order.orderHistory.map((oneHistory: any) => (
-        <Code>{JSON.stringify(oneHistory, null, 2)}</Code>
-      ))}
+
       <Box backgroundColor="cyan">
         <Text>ShopItems: </Text>
         {order.cart.cartItems.map((cartItem: CartItem, i: number) => (
