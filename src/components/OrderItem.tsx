@@ -16,14 +16,21 @@ import {
   OrderState,
 } from "domain/models/aggregates/OrderAggregate";
 import { CartItem } from "domain/models/entities/CartItem";
+import { UniqueEntityID } from "types-ddd/dist/src";
 
 type Props = {
   order: OrderAggregate;
 };
 
 const OrderItem: React.FC<Props> = ({ order }) => {
-  const handleOrderStateChange = async (newOrderState: OrderState) => {
-    console.log(newOrderState);
+  const handleOrderStateChange = async (
+    orderID: UniqueEntityID,
+    newOrderState: OrderState
+  ) => {
+    fetch(
+      // @ts-ignore
+      `/api/order/changeOrderState?orderID=${orderID.value}&newOrderState=${newOrderState}`
+    );
   };
 
   return (
@@ -36,7 +43,10 @@ const OrderItem: React.FC<Props> = ({ order }) => {
           <MenuItem
             key={1}
             onClick={() =>
-              handleOrderStateChange(OrderState.PAYMENT_UNCONFIMRED)
+              handleOrderStateChange(
+                order.orderID,
+                OrderState.PAYMENT_UNCONFIMRED
+              )
             }
           >
             {OrderState.PAYMENT_UNCONFIMRED}
@@ -44,30 +54,50 @@ const OrderItem: React.FC<Props> = ({ order }) => {
 
           <MenuItem
             key={2}
-            onClick={() => handleOrderStateChange(OrderState.PAYMENT_CONFIRMED)}
+            onClick={() =>
+              handleOrderStateChange(
+                order.orderID,
+                OrderState.PAYMENT_CONFIRMED
+              )
+            }
           >
             {OrderState.PAYMENT_CONFIRMED}
           </MenuItem>
 
           <MenuItem
             key={3}
-            onClick={() => handleOrderStateChange(OrderState.PACKED)}
+            onClick={() =>
+              handleOrderStateChange(order.orderID, OrderState.PACKED)
+            }
           >
             {OrderState.PACKED}
           </MenuItem>
 
           <MenuItem
             key={4}
-            onClick={() => handleOrderStateChange(OrderState.ON_DELIVERY)}
+            onClick={() =>
+              handleOrderStateChange(order.orderID, OrderState.ON_DELIVERY)
+            }
           >
             {OrderState.ON_DELIVERY}
           </MenuItem>
 
           <MenuItem
             key={5}
-            onClick={() => handleOrderStateChange(OrderState.DELIVERED)}
+            onClick={() =>
+              handleOrderStateChange(order.orderID, OrderState.DELIVERED)
+            }
           >
             {OrderState.DELIVERED}
+          </MenuItem>
+
+          <MenuItem
+            key={5}
+            onClick={() =>
+              handleOrderStateChange(order.orderID, OrderState.CANCELLED)
+            }
+          >
+            {OrderState.CANCELLED}
           </MenuItem>
         </MenuList>
       </Menu>
