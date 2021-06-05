@@ -8,6 +8,7 @@ export enum OrderState {
   PACKED = "PACKED",
   ON_DELIVERY = "ON_DELIVERY",
   DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
 }
 
 type OrderHistory = {
