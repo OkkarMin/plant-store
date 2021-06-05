@@ -1,5 +1,6 @@
 import { OrderAggregate } from "domain/models/aggregates/OrderAggregate";
 import { IOrderRepo } from "domain/models/infrastructure/IOrderRepository";
+import { UniqueEntityID } from "types-ddd/dist/src";
 
 export class MongoOrderRepository implements IOrderRepo {
   public readonly db;
@@ -12,8 +13,10 @@ export class MongoOrderRepository implements IOrderRepo {
     return this.db.collection("order").insertOne(order);
   }
 
-  update(order: OrderAggregate): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async update(order: OrderAggregate): Promise<boolean> {
+    await this.db.collection("order").deleteOne({ orderID: order.orderID });
+
+    return this.save(order);
   }
 
   delete(order: OrderAggregate): Promise<boolean> {
@@ -29,8 +32,8 @@ export class MongoOrderRepository implements IOrderRepo {
     return result;
   }
 
-  getOne(orderID: number): Promise<OrderAggregate> {
-    throw new Error("Method not implemented.");
+  async getOne(orderID: UniqueEntityID): Promise<OrderAggregate> {
+    return this.db.collection("order").findOne({ "orderID.value": orderID });
   }
 
   public static create(db: any) {

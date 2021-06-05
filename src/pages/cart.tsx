@@ -70,13 +70,13 @@ function Cart() {
     }).getResult();
     order.changeState(OrderState.PAYMENT_UNCONFIMRED);
 
-    // fetch("/api/order/createOrder", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(order),
-    // });
+    fetch("/api/order/createOrder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    });
 
     toast({
       title: "Check out success! Thank you for shopping with us 😊 !",

@@ -1,6 +1,4 @@
 import React from "react";
-import { useSession } from "next-auth/client";
-
 import {
   Button,
   Box,
@@ -9,6 +7,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Code,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -77,6 +76,9 @@ const OrderItem: React.FC<Props> = ({ order }) => {
         <Text>OrderTotal: {order.orderTotalAmount}</Text>
         <Text>OrderState: {order.currentState}</Text>
       </Box>
+      {order.orderHistory.map((oneHistory: any) => (
+        <Code>{JSON.stringify(oneHistory, null, 2)}</Code>
+      ))}
       <Box backgroundColor="cyan">
         <Text>ShopItems: </Text>
         {order.cart.cartItems.map((cartItem: CartItem, i: number) => (

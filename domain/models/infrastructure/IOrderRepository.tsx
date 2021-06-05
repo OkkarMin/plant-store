@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "types-ddd/dist/src";
 import { OrderAggregate } from "../aggregates/OrderAggregate";
 
 export interface IOrderRepo {
@@ -8,5 +9,5 @@ export interface IOrderRepo {
 
   // read
   getAll(): Promise<OrderAggregate[]>;
-  getOne(orderID: number): Promise<OrderAggregate>;
+  getOne(orderID: UniqueEntityID): Promise<OrderAggregate>;
 }
