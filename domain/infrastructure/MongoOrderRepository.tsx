@@ -33,7 +33,12 @@ export class MongoOrderRepository implements IOrderRepo {
   }
 
   async getOne(orderID: UniqueEntityID): Promise<OrderAggregate> {
-    return this.db.collection("order").findOne({ "orderID.value": orderID });
+    return this.db
+      .collection("order")
+      .findOne(
+        { "orderID.value": orderID },
+        { projection: { _id: 0, props: 0 } }
+      );
   }
 
   public static create(db: any) {

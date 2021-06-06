@@ -12,7 +12,7 @@ export enum OrderState {
 }
 
 type OrderHistory = {
-  dateTime: Date;
+  dateString: string;
   orderState: OrderState;
 };
 
@@ -43,18 +43,18 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIMRED;
     this.orderHistory = props.orderHistory || [];
     this.orderTotalAmount = this.calculateOrderTotalAmount();
-    id ? (this.orderID = id) : (this.orderID = this._id);
+    this.orderID = id ? id : this._id;
   }
 
-  public changeState(newOrderState: OrderState): OrderAggregate {
+  public changeState(newOrderState: OrderState): OrderState {
     this.currentState = newOrderState;
 
-    this.orderHistory!.push({
-      dateTime: new Date(),
+    this.orderHistory.push({
+      dateString: new Date().toISOString(),
       orderState: newOrderState,
     });
 
-    return this;
+    return newOrderState;
   }
 
   private calculateOrderTotalAmount(): number {
