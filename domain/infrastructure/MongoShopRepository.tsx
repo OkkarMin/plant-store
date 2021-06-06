@@ -27,7 +27,9 @@ export class MongoShopRepository implements IShopRepo {
   }
 
   getOne(shopName: string): Promise<ShopAggregate> {
-    return this.db.collection("shop").findOne({ name: shopName });
+    return this.db
+      .collection("shop")
+      .findOne({ name: shopName }, { projection: { props: 0 } });
   }
 
   public static create(db: any): MongoShopRepository {
