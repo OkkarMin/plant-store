@@ -18,11 +18,7 @@ const Index = () => {
   const [session] = useSession();
   return (
     <Box height="100vh">
-      <Box
-        position="relative"
-        minHeight={["25vh", "240px"]}
-        background="green.100"
-      >
+      <Box position="relative" minHeight="210px" background="green.100">
         <Wave />
         <Container>
           <Box position="absolute" marginTop="6">
