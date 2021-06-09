@@ -3,7 +3,7 @@ import { Cart } from "domain/models/entities/Cart";
 import { Customer } from "domain/models/entities/Customer";
 
 export enum OrderState {
-  PAYMENT_UNCONFIMRED = "PAYMENT_UNCONFIRMED",
+  PAYMENT_UNCONFIRMED = "PAYMENT_UNCONFIRMED",
   PAYMENT_CONFIRMED = "PAYMENT_CONFIRMED",
   PACKED = "PACKED",
   ON_DELIVERY = "ON_DELIVERY",
@@ -40,7 +40,7 @@ export class OrderAggregate extends AggregateRoot<OrderAggregateProps> {
     this.cart = props.cart;
     this.customer = props.customer;
     this.isSelfCollect = props.isSelfCollect;
-    this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIMRED;
+    this.currentState = props.currentState || OrderState.PAYMENT_UNCONFIRMED;
     this.orderHistory = props.orderHistory || [];
     this.orderTotalAmount = this.calculateOrderTotalAmount();
     this.orderID = id ? id : this._id;
