@@ -1,4 +1,7 @@
-import { OrderAggregate } from "domain/models/aggregates/OrderAggregate";
+import {
+  OrderAggregate,
+  OrderState,
+} from "domain/models/aggregates/OrderAggregate";
 import { IOrderRepo } from "domain/models/infrastructure/IOrderRepository";
 import { UniqueEntityID } from "types-ddd/dist/src";
 
@@ -25,6 +28,17 @@ export class MongoOrderRepository implements IOrderRepo {
 
   async getAll(): Promise<OrderAggregate[]> {
     const cursor = await this.db.collection("order").find();
+
+    let result: OrderAggregate[] = [];
+    await cursor.forEach((order: OrderAggregate) => result.push(order));
+
+    return result;
+  }
+
+  async getOrdersByState(orderState: OrderState): Promise<OrderAggregate[]> {
+    const cursor = await this.db
+      .collection("order")
+      .find({ currentState: orderState });
 
     let result: OrderAggregate[] = [];
     await cursor.forEach((order: OrderAggregate) => result.push(order));
