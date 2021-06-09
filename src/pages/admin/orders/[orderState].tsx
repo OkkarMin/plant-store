@@ -14,6 +14,7 @@ import {
   DrawerCloseButton,
   VStack,
   Spinner,
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 import { useSession } from "next-auth/client";
@@ -116,11 +117,11 @@ const Orders = () => {
               </Box>
             </Container>
           </Box>
-          <VStack spacing="3">
+          <SimpleGrid columns={[1, 2]} spacing="10px" paddingX="4">
             {data.map((order: OrderAggregate, i: number) => (
               <OrderItem key={i} order={order} />
             ))}
-          </VStack>
+          </SimpleGrid>
         </Flex>
       </>
     );
