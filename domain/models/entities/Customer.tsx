@@ -5,6 +5,7 @@ interface CustomerProps extends BaseDomainEntity {
   lastName: string;
   phoneNumber: number;
   email: string;
+  address: string;
 }
 
 export class Customer extends Entity<CustomerProps> {
@@ -13,6 +14,7 @@ export class Customer extends Entity<CustomerProps> {
   public lastName: string;
   public phoneNumber: number;
   public email: string;
+  public address: string;
 
   private constructor(props: CustomerProps, id?: UniqueEntityID) {
     super(props, id);
@@ -20,6 +22,7 @@ export class Customer extends Entity<CustomerProps> {
     this.lastName = props.lastName;
     this.phoneNumber = props.phoneNumber;
     this.email = props.email;
+    this.address = props.address;
     this.customerID = this.phoneNumber.toString() + this.firstName;
   }
 
@@ -31,7 +34,8 @@ export class Customer extends Entity<CustomerProps> {
       !props.firstName &&
       !props.lastName &&
       !props.phoneNumber &&
-      !props.email
+      !props.email &&
+      !props.address
     ) {
       return Result.fail<Customer>(
         "Required details for customer is not provided"
