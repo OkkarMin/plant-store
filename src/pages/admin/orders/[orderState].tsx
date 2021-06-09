@@ -101,14 +101,14 @@ const Orders = () => {
         <Flex direction="column" height="100vh">
           <Box
             position="relative"
-            minHeight="250px"
+            minHeight="225px"
             // @ts-ignore
             background={`${orderStateColors[orderState]}.300`}
           >
             <Wave />
             <Container>
               <Box position="absolute" marginTop="6">
-                <Heading>{orderState} orders</Heading>
+                <Heading fontSize="2xl">{orderState} orders</Heading>
 
                 <Button marginTop="2" ref={filterBtnRef} onClick={onOpen}>
                   Filter Orders
