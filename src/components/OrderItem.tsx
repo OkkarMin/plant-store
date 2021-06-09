@@ -81,6 +81,7 @@ const OrderItem: FC<Props> = ({ order }) => {
         </MenuList>
       </Menu>
       <Box backgroundColor="orange">
+        {/* @ts-ignore */}
         <Text>OrderID: {order.orderID.value}</Text>
         <Text>OrderTotal: {order.orderTotalAmount}</Text>
         <Text>OrderState: {order.currentState}</Text>
