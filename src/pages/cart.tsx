@@ -68,7 +68,7 @@ function Cart() {
       isSelfCollect: false,
       customer,
     }).getResult();
-    order.changeState(OrderState.PAYMENT_UNCONFIMRED);
+    order.changeState(OrderState.PAYMENT_UNCONFIRMED);
 
     fetch("/api/order/createOrder", {
       method: "POST",
