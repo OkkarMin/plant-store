@@ -42,9 +42,10 @@ const OrderItem: FC<Props> = ({ order }) => {
     fetch(
       // @ts-ignore
       `/api/order/changeOrderState?orderID=${orderID.value}&newOrderState=${newOrderState}`
-    )
-      .then(() => mutate(`/api/order/${order.currentState}`))
-      .then(() => setLoading(false));
+    ).then(() => {
+      mutate(`/api/order/${order.currentState}`);
+      setLoading(false);
+    });
   };
 
   return (
@@ -77,65 +78,6 @@ const OrderItem: FC<Props> = ({ order }) => {
               </MenuItem>
             );
           })}
-          {/* <MenuItem
-            key={1}
-            onClick={() =>
-              handleOrderStateChange(
-                order.orderID,
-                OrderState.PAYMENT_UNCONFIMRED
-              )
-            }
-          >
-            {OrderState.PAYMENT_UNCONFIMRED}
-          </MenuItem>
-
-          <MenuItem
-            key={2}
-            onClick={() =>
-              handleOrderStateChange(
-                order.orderID,
-                OrderState.PAYMENT_CONFIRMED
-              )
-            }
-          >
-            {OrderState.PAYMENT_CONFIRMED}
-          </MenuItem>
-
-          <MenuItem
-            key={3}
-            onClick={() =>
-              handleOrderStateChange(order.orderID, OrderState.PACKED)
-            }
-          >
-            {OrderState.PACKED}
-          </MenuItem>
-
-          <MenuItem
-            key={4}
-            onClick={() =>
-              handleOrderStateChange(order.orderID, OrderState.ON_DELIVERY)
-            }
-          >
-            {OrderState.ON_DELIVERY}
-          </MenuItem>
-
-          <MenuItem
-            key={5}
-            onClick={() =>
-              handleOrderStateChange(order.orderID, OrderState.DELIVERED)
-            }
-          >
-            {OrderState.DELIVERED}
-          </MenuItem>
-
-          <MenuItem
-            key={6}
-            onClick={() =>
-              handleOrderStateChange(order.orderID, OrderState.CANCELLED)
-            }
-          >
-            {OrderState.CANCELLED}
-          </MenuItem> */}
         </MenuList>
       </Menu>
       <Box backgroundColor="orange">
