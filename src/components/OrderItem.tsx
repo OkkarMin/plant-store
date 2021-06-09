@@ -91,6 +91,14 @@ const OrderItem: FC<Props> = ({ order }) => {
 
       <Box padding="4">
         <HStack>
+          <Icon as={FaShuttleVan} />
+          {order.isSelfCollect ? (
+            <Text>Self-collect</Text>
+          ) : (
+            <Text>Delivery</Text>
+          )}
+        </HStack>
+        <HStack>
           <Icon as={FaHashtag} />
           <Text>{order.customer.customerID}</Text>
         </HStack>
@@ -106,7 +114,7 @@ const OrderItem: FC<Props> = ({ order }) => {
         </HStack>
         <HStack>
           <Icon as={FaLocationArrow} />
-          <Text>{order.customer.email}</Text>
+          <Text>{order.customer.address}</Text>
         </HStack>
       </Box>
       <Menu>
