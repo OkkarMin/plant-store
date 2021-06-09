@@ -30,7 +30,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
     fetch(
       // @ts-ignore
       `/api/order/changeOrderState?orderID=${orderID.value}&newOrderState=${newOrderState}`
-    ).then(() => mutate("/api/order").then(() => window.location.reload()));
+    ).then(() => mutate(`/api/order/${order.currentState.toLowerCase()}`));
   };
 
   return (
