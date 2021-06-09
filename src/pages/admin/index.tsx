@@ -10,7 +10,7 @@ const Index = () => {
 
   useEffect(() => {
     if (!loading) {
-      session && router.push("/admin/orders");
+      session && router.push("/admin/orders/paymentUnconfirmed");
       !session && router.push("/api/auth/signin");
     }
   }, [loading]);
