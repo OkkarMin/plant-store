@@ -1,4 +1,4 @@
-import React from "react";
+import { FC, useState } from "react";
 import { mutate } from "swr";
 import {
   Button,
@@ -18,29 +18,66 @@ import {
 import { CartItem } from "domain/models/entities/CartItem";
 import { UniqueEntityID } from "types-ddd/dist/src";
 
+const orderStateColors = {
+  PAYMENT_UNCONFIRMED: "blue",
+  PAYMENT_CONFIRMED: "orange",
+  PACKED: "cyan",
+  ON_DELIVERY: "yellow",
+  DELIVERED: "green",
+  CANCELLED: "red",
+};
+
 type Props = {
   order: OrderAggregate;
 };
 
-const OrderItem: React.FC<Props> = ({ order }) => {
+const OrderItem: FC<Props> = ({ order }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleOrderStateChange = async (
     orderID: UniqueEntityID,
     newOrderState: OrderState
   ) => {
+    setLoading(true);
     fetch(
       // @ts-ignore
       `/api/order/changeOrderState?orderID=${orderID.value}&newOrderState=${newOrderState}`
-    ).then(() => mutate(`/api/order/${order.currentState}`));
+    )
+      .then(() => mutate(`/api/order/${order.currentState}`))
+      .then(() => setLoading(false));
   };
 
   return (
     <Box>
       <Menu colorScheme="messenger">
-        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+        <MenuButton
+          as={Button}
+          rightIcon={<ChevronDownIcon />}
+          isLoading={loading}
+        >
           Change Order State
         </MenuButton>
+
         <MenuList>
-          <MenuItem
+          {Object.keys(OrderState).map((orderState: string, i: number) => {
+            return (
+              <MenuItem
+                key={i}
+                backgroundColor={`${
+                  orderStateColors[orderState as OrderState]
+                }.300`}
+                onClick={() =>
+                  handleOrderStateChange(
+                    order.orderID,
+                    OrderState[orderState as OrderState]
+                  )
+                }
+              >
+                {orderState}
+              </MenuItem>
+            );
+          })}
+          {/* <MenuItem
             key={1}
             onClick={() =>
               handleOrderStateChange(
@@ -98,7 +135,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
             }
           >
             {OrderState.CANCELLED}
-          </MenuItem>
+          </MenuItem> */}
         </MenuList>
       </Menu>
       <Box backgroundColor="orange">
