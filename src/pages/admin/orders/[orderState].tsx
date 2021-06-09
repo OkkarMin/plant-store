@@ -117,11 +117,16 @@ const Orders = () => {
               </Box>
             </Container>
           </Box>
-          <SimpleGrid columns={[1, 2]} spacing="10px" paddingX="4">
+          <Flex
+            direction={["column", "row"]}
+            justifyContent="space-around"
+            alignItems="center"
+            flexWrap="wrap"
+          >
             {data.map((order: OrderAggregate, i: number) => (
               <OrderItem key={i} order={order} />
             ))}
-          </SimpleGrid>
+          </Flex>
         </Flex>
       </>
     );

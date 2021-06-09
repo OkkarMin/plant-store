@@ -3,13 +3,27 @@ import { mutate } from "swr";
 import {
   Button,
   Box,
+  Flex,
+  HStack,
+  VStack,
+  Heading,
+  Icon,
   Text,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  Spacer,
+  Divider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  FaUserAlt,
+  FaHashtag,
+  FaShuttleVan,
+  FaLocationArrow,
+  FaPhoneAlt,
+} from "react-icons/fa";
 
 import {
   OrderAggregate,
@@ -49,8 +63,53 @@ const OrderItem: FC<Props> = ({ order }) => {
   };
 
   return (
-    <Box>
-      <Menu colorScheme="messenger">
+    <Flex
+      direction="column"
+      borderRadius="lg"
+      borderWidth="1px"
+      shadow="sm"
+      backgroundColor="gray.50"
+      margin="4"
+    >
+      <Box padding="4">
+        <HStack>
+          <VStack alignItems="flex-start" spacing="1">
+            {order.cart.cartItems.map((cartItem: CartItem, i: number) => (
+              <Text key={i}>
+                ➤ {cartItem.shopItem.name} x {cartItem.quantity}
+              </Text>
+            ))}
+          </VStack>
+          <Spacer />
+          <Box alignSelf="flex-end">
+            <Heading fontSize="lg">S$ {order.orderTotalAmount}</Heading>
+          </Box>
+        </HStack>
+      </Box>
+
+      <Divider />
+
+      <Box padding="4">
+        <HStack>
+          <Icon as={FaHashtag} />
+          <Text>{order.customer.customerID}</Text>
+        </HStack>
+        <HStack>
+          <Icon as={FaUserAlt} />
+          <Text>
+            {order.customer.firstName} {order.customer.lastName}
+          </Text>
+        </HStack>
+        <HStack>
+          <Icon as={FaPhoneAlt} />
+          <Text>{order.customer.phoneNumber}</Text>
+        </HStack>
+        <HStack>
+          <Icon as={FaLocationArrow} />
+          <Text>{order.customer.email}</Text>
+        </HStack>
+      </Box>
+      <Menu>
         <MenuButton
           as={Button}
           rightIcon={<ChevronDownIcon />}
@@ -58,7 +117,6 @@ const OrderItem: FC<Props> = ({ order }) => {
         >
           Change Order State
         </MenuButton>
-
         <MenuList>
           {Object.keys(OrderState).map((orderState: string, i: number) => {
             return (
@@ -80,32 +138,7 @@ const OrderItem: FC<Props> = ({ order }) => {
           })}
         </MenuList>
       </Menu>
-      <Box backgroundColor="orange">
-        {/* @ts-ignore */}
-        <Text>OrderID: {order.orderID.value}</Text>
-        <Text>OrderTotal: {order.orderTotalAmount}</Text>
-        <Text>OrderState: {order.currentState}</Text>
-      </Box>
-
-      <Box backgroundColor="cyan">
-        <Text>ShopItems: </Text>
-        {order.cart.cartItems.map((cartItem: CartItem, i: number) => (
-          <Text key={i}>
-            {" "}
-            {cartItem.shopItem.name} x {cartItem.quantity}{" "}
-          </Text>
-        ))}
-      </Box>
-      <Box backgroundColor="yellow">
-        <Text>Order By:</Text>
-        <Text>CustomerID: {order.customer.customerID}</Text>
-        <Text>
-          CustomerName: {order.customer.firstName} {order.customer.lastName}
-        </Text>
-        <Text>CustomerPhone: {order.customer.phoneNumber}</Text>
-        <Text>CustomerEmail: {order.customer.email}</Text>
-      </Box>
-    </Box>
+    </Flex>
   );
 };
 
