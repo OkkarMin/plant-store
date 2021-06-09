@@ -19,8 +19,6 @@ export const updateOrderState = async ({
   // find existing order in repo
   const result = await orderRepo.getOne(orderID);
 
-  console.log(result, "\n\n");
-
   // rehydrate it
   const existingOrder = OrderAggregate.create(
     result,
