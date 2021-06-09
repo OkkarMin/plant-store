@@ -57,15 +57,16 @@ function Cart() {
     }).getResult();
 
     const customer = Customer.create({
-      firstName: "Okkar",
-      lastName: "Min",
+      firstName: "Yeow",
+      lastName: "Ying Sheng",
       phoneNumber: 91234567,
-      email: "phoehtaungwin@gmail.com",
+      email: "yeow@gmail.com",
+      address: "100 Hong Kang Kah Kee",
     }).getResult();
 
     const order = OrderAggregate.create({
       cart: cartToCheckout,
-      isSelfCollect: false,
+      isSelfCollect: true,
       customer,
     }).getResult();
     order.changeState(OrderState.PAYMENT_UNCONFIRMED);
